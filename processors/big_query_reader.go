@@ -3,10 +3,10 @@ package processors
 import (
 	"errors"
 
+	"github.com/cromon/ratchet2/data"
+	"github.com/cromon/ratchet2/logger"
+	"github.com/cromon/ratchet2/util"
 	bigquery "github.com/dailyburn/bigquery/client"
-	"github.com/dailyburn/ratchet/data"
-	"github.com/dailyburn/ratchet/logger"
-	"github.com/dailyburn/ratchet/util"
 )
 
 // BigQueryReader is used to query data from Google's BigQuery,

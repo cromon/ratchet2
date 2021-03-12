@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/dailyburn/ratchet/data"
+	"github.com/cromon/ratchet2/data"
 )
 
 // CSVString returns an empty string for nil values to make sure that the

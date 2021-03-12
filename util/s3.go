@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	"github.com/dailyburn/ratchet/logger"
+	"github.com/cromon/ratchet2/logger"
 )
 
 // ListS3Objects returns all object keys matching the given prefix. Note that

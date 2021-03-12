@@ -7,10 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dailyburn/ratchet"
-	"github.com/dailyburn/ratchet/data"
-	"github.com/dailyburn/ratchet/logger"
-	"github.com/dailyburn/ratchet/processors"
+	"github.com/cromon/ratchet2/data"
+	"github.com/cromon/ratchet2/logger"
+	"github.com/cromon/ratchet2/processors"
 )
 
 // dummyProcessorDuration is the amount of time ProcessData will spend waiting before it returns.

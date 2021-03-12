@@ -1,10 +1,10 @@
 package processors
 
 import (
+	"github.com/cromon/ratchet2/data"
+	"github.com/cromon/ratchet2/logger"
+	"github.com/cromon/ratchet2/util"
 	bigquery "github.com/dailyburn/bigquery/client"
-	"github.com/dailyburn/ratchet/data"
-	"github.com/dailyburn/ratchet/logger"
-	"github.com/dailyburn/ratchet/util"
 )
 
 // BigQueryWriter is used to write data to Google's BigQuery. If the table you want to

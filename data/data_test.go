@@ -3,7 +3,7 @@ package data_test
 import (
 	"fmt"
 
-	"github.com/dailyburn/ratchet/data"
+	"github.com/cromon/ratchet2/data"
 )
 
 type testStruct struct {

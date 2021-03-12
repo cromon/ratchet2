@@ -1,6 +1,6 @@
 package processors
 
-import "github.com/dailyburn/ratchet/data"
+import "github.com/cromon/ratchet2/data"
 
 // FuncTransformer executes the given function on each data
 // payload, sending the resuling data to the next stage.

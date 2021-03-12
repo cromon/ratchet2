@@ -3,9 +3,9 @@ package processors
 import (
 	"regexp"
 
-	"github.com/dailyburn/ratchet/data"
-	"github.com/dailyburn/ratchet/logger"
-	"github.com/dailyburn/ratchet/util"
+	"github.com/cromon/ratchet2/data"
+	"github.com/cromon/ratchet2/logger"
+	"github.com/cromon/ratchet2/util"
 )
 
 // RegexpMatcher checks if incoming data matches the given Regexp, and sends

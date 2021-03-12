@@ -3,8 +3,8 @@ package processors
 import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/dailyburn/ratchet/data"
-	"github.com/dailyburn/ratchet/util"
+	"github.com/cromon/ratchet2/data"
+	"github.com/cromon/ratchet2/util"
 )
 
 // S3Writer sends data upstream to S3. By default, we will not compress data before sending it.
