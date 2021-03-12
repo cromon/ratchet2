@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/cromon/ratchet2"
 	"github.com/cromon/ratchet2/data"
 	"github.com/cromon/ratchet2/logger"
 	"github.com/cromon/ratchet2/processors"
@@ -35,12 +36,12 @@ func ExampleGetRequest() {
 		return data.JSON(output)
 	})
 	stdout := processors.NewIoWriter(os.Stdout)
-	pipeline := ratchet.NewPipeline(getGoogle, checkHTML, stdout)
+	pipeline := ratchet2.NewPipeline(getGoogle, checkHTML, stdout)
 
 	err = <-pipeline.Run()
 
 	if err != nil {
-		fmt.Println("An error occurred in the ratchet pipeline:", err.Error())
+		fmt.Println("An error occurred in the ratchet2 pipeline:", err.Error())
 	}
 
 	// Output:

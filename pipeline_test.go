@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/cromon/ratchet2"
 	"github.com/cromon/ratchet2/data"
 	"github.com/cromon/ratchet2/logger"
 	"github.com/cromon/ratchet2/processors"
@@ -93,7 +94,7 @@ func TestDataProcessor(t *testing.T) {
 
 	data := [4]string{"hi", "there", "guys", "!"}
 	writer := dummyWriter{}
-	pipeline := ratchet.NewPipeline(&dummyReader{data: data}, &dummyProcessor{}, &writer)
+	pipeline := ratchet2.NewPipeline(&dummyReader{data: data}, &dummyProcessor{}, &writer)
 
 	start := time.Now()
 	err := <-pipeline.Run()
@@ -109,7 +110,7 @@ func TestDataProcessor(t *testing.T) {
 		t.Errorf("Expected pipeline to finish in ~%s, finished in %s", expectedDuration, end.Sub(start))
 	}
 	if err != nil {
-		t.Error("An error occurred in the ratchet pipeline:", err.Error())
+		t.Error("An error occurred in the ratchet2 pipeline:", err.Error())
 	}
 	if data != writer.data {
 		t.Errorf("Expected %#v to be passed through the pipeline, got %#v", data, writer.data)
@@ -121,7 +122,7 @@ func TestConcurrentDataProcessor(t *testing.T) {
 
 	data := [4]string{"hi", "there", "guys", "!"}
 	writer := dummyWriter{}
-	pipeline := ratchet.NewPipeline(&dummyReader{data: data}, &dummyConcurrentProcessor{}, &writer)
+	pipeline := ratchet2.NewPipeline(&dummyReader{data: data}, &dummyConcurrentProcessor{}, &writer)
 
 	start := time.Now()
 	err := <-pipeline.Run()
@@ -137,7 +138,7 @@ func TestConcurrentDataProcessor(t *testing.T) {
 		t.Errorf("Expected pipeline to finish in ~%s, finished in %s", expectedDuration, end.Sub(start))
 	}
 	if err != nil {
-		t.Error("An error occurred in the ratchet pipeline:", err.Error())
+		t.Error("An error occurred in the ratchet2 pipeline:", err.Error())
 	}
 	if data != writer.data {
 		t.Errorf("Expected %#v to be passed through the pipeline, got %#v", data, writer.data)
@@ -158,7 +159,7 @@ func TestConcurrentFuncTransformer(t *testing.T) {
 	})
 	transformer.ConcurrencyLevel = dummyProcessorConcurrency
 
-	pipeline := ratchet.NewPipeline(&dummyReader{data: dataSlice}, transformer, &writer)
+	pipeline := ratchet2.NewPipeline(&dummyReader{data: dataSlice}, transformer, &writer)
 
 	start := time.Now()
 	err := <-pipeline.Run()
@@ -174,7 +175,7 @@ func TestConcurrentFuncTransformer(t *testing.T) {
 		t.Errorf("Expected pipeline to finish in ~%s, finished in %s", expectedDuration, end.Sub(start))
 	}
 	if err != nil {
-		t.Error("An error occurred in the ratchet pipeline:", err.Error())
+		t.Error("An error occurred in the ratchet2 pipeline:", err.Error())
 	}
 	if expected != writer.data {
 		t.Errorf("Expected transform results %#v, got %#v", expected, writer.data)
@@ -187,12 +188,12 @@ func ExampleNewPipeline() {
 	// A basic pipeline is created using one or more DataProcessor instances.
 	hello := processors.NewIoReader(strings.NewReader("Hello world!"))
 	stdout := processors.NewIoWriter(os.Stdout)
-	pipeline := ratchet.NewPipeline(hello, stdout)
+	pipeline := ratchet2.NewPipeline(hello, stdout)
 
 	err := <-pipeline.Run()
 
 	if err != nil {
-		fmt.Println("An error occurred in the ratchet pipeline:", err.Error())
+		fmt.Println("An error occurred in the ratchet2 pipeline:", err.Error())
 	}
 
 	// Output:
@@ -219,25 +220,25 @@ func ExampleNewBranchingPipeline() {
 	stdout := processors.NewIoWriter(os.Stdout)
 
 	// Create the PipelineLayout that will run the DataProcessors
-	layout, err := ratchet.NewPipelineLayout(
+	layout, err := ratchet2.NewPipelineLayout(
 		// Stage 1 - spits out hello world in a few languages
-		ratchet.NewPipelineStage(
-			ratchet.Do(hello).Outputs(upperCaser, lowerCaser),
-			ratchet.Do(hola).Outputs(upperCaser),
-			ratchet.Do(bonjour).Outputs(lowerCaser),
+		ratchet2.NewPipelineStage(
+			ratchet2.Do(hello).Outputs(upperCaser, lowerCaser),
+			ratchet2.Do(hola).Outputs(upperCaser),
+			ratchet2.Do(bonjour).Outputs(lowerCaser),
 		),
 		// Stage 2 - transforms strings to upper and lower case
-		ratchet.NewPipelineStage(
-			ratchet.Do(upperCaser).Outputs(helloMatcher),
-			ratchet.Do(lowerCaser).Outputs(helloMatcher),
+		ratchet2.NewPipelineStage(
+			ratchet2.Do(upperCaser).Outputs(helloMatcher),
+			ratchet2.Do(lowerCaser).Outputs(helloMatcher),
 		),
 		// Stage 3 - only lets through strings that match "hello"
-		ratchet.NewPipelineStage(
-			ratchet.Do(helloMatcher).Outputs(stdout),
+		ratchet2.NewPipelineStage(
+			ratchet2.Do(helloMatcher).Outputs(stdout),
 		),
 		// Stage 4 - prints to STDOUT
-		ratchet.NewPipelineStage(
-			ratchet.Do(stdout),
+		ratchet2.NewPipelineStage(
+			ratchet2.Do(stdout),
 		),
 	)
 	if err != nil {
@@ -245,11 +246,11 @@ func ExampleNewBranchingPipeline() {
 	}
 
 	// Create and run the Pipeline
-	pipeline := ratchet.NewBranchingPipeline(layout)
+	pipeline := ratchet2.NewBranchingPipeline(layout)
 	err = <-pipeline.Run()
 
 	if err != nil {
-		fmt.Println("An error occurred in the ratchet pipeline:", err.Error())
+		fmt.Println("An error occurred in the ratchet2 pipeline:", err.Error())
 	}
 
 	// Output:
